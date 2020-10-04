@@ -1,4 +1,4 @@
-const GRAPHQL_API_ENDPOINT = 'https://sapor-graph.herokuapp.com/v1/graphql';
+const GRAPHQL_API_ENDPOINT = 'https://yourgraphqlserver.com/v1/graphql';
 
 const config = {};
 
