@@ -1,0 +1,112 @@
+
+fragment DishDetails  on dishes {
+    cuisine
+    id
+    is_live
+    description
+    isVegetarian
+    serving_unit
+    ingredients
+    calories
+     name
+    type
+    category
+}
+
+
+fragment DishImages on dishes {
+  images{
+    id
+    path
+  }
+}
+
+fragment ChefDetails on users{
+      id
+      degree_from
+      delivery_region
+      delivery_fee
+      profile_picture
+      degree_status
+      first_name
+      bio
+      email
+      degree_type
+      phone_number
+}
+query allFoodItems($chefId: uuid) {
+  dishes(where: { chef: { id: { _eq: $chefId } } }) {
+    ...DishDetails
+    ...DishImages
+    chef{
+      id
+    }
+    variants {
+      id
+      name
+      price
+      servings_count
+    }
+  }
+}
+
+query allLiveFoodItems($chefId: uuid) {
+  dishes(where: { is_live: {_eq: true}, chef: { id: { _eq: $chefId } } }) {
+    ...DishImages
+    ...DishDetails
+    chef{
+      id
+    }
+    variants {
+      id
+      name
+      price
+      servings_count
+    }
+  }
+}
+query  searchDishes ($name: String, $type: String, $cat: String, $firstName: String, $lastName: String) {
+  dishes(where: {_or: [{name: {_ilike: $name}, type: {_ilike: $type}, category: {_ilike: $cat}, chef: {_or: [{first_name: {_ilike: $firstName}}, {last_name: {_ilike: $lastName}}]}}]}) {
+    ...DishDetails
+    ...DishImages
+    chef {
+     ...ChefDetails
+    }
+  }
+}
+
+
+query allMyDishes {
+  dishes(order_by: { created_at: asc }) {
+    is_live
+    name
+    type
+    calories
+    category
+    cuisine
+    serving_unit
+    description
+    ingredients
+    id
+    images {
+      id
+      path
+      created_at
+      updated_at
+    }
+    isVegetarian
+    variants {
+      name
+      price
+      servings_count
+    }
+  }
+}
+
+
+query allNewDishes {
+  dishes{
+    name
+    id
+  }
+}

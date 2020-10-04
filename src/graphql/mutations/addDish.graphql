@@ -1,0 +1,37 @@
+mutation addNewDishMutation(
+    $name: String!
+    $calories: String
+    $category: String
+    $type: String
+    $cuisine: String
+    $description: String
+    $variants: [dish_variants_insert_input!]!
+    $isVegetarian: Boolean
+    $images: [dish_images_insert_input!]!
+    $ingredients: String
+    $serving_unit: String
+  ) {
+    insert_dishes_one(
+      object: {
+        name: $name
+        ingredients: $ingredients
+        calories: $calories
+        category: $category
+        type: $type
+        cuisine: $cuisine
+        serving_unit: $serving_unit
+        description: $description
+        isVegetarian: $isVegetarian
+        images: { data: $images }
+        variants: { data: $variants }
+      }
+    ) {
+      id
+      variants {
+        name
+        price
+        servings_count
+      }
+    }
+  }
+

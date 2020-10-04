@@ -1,0 +1,13 @@
+mutation toggleKitchen($to: Boolean!) {
+  update_users(_set: { is_kitchen_opened: $to }, where: {}) {
+    returning {
+      is_kitchen_opened
+    }
+  }
+}
+
+mutation editChefInfo($chefId: uuid!, $input: users_set_input) {
+  update_users_by_pk(pk_columns: {id: $chefId}, _set: $input) {
+    id
+  }
+}

@@ -1,0 +1,68 @@
+fragment dishInfo on dishes {
+  name
+  id
+  name
+  is_live
+  images {
+    path
+    id
+  }
+  description
+  ingredients
+  calories
+  category
+  cuisine
+  isVegetarian
+  variants {
+    price
+    name
+    name
+  }
+  type
+}
+fragment chefInfo on users {
+  last_name
+  first_name
+  profile_picture
+  email
+  address_line_one
+  address_line_two
+  city
+  state
+  id
+  role
+  gender
+  dob
+  bio
+  phone_number
+  address_line_two
+  is_delivery_available
+  delivery_fee
+  delivery_region
+  zip_code
+  degree_from
+  degree_type
+  degree_status
+  location_area
+  created_at
+  is_kitchen_opened
+}
+query searchChefs($input: String!) {
+  users(where: {_or: [{first_name: {_like: $input}}, {last_name: {_ilike: $input}}, {city: {_ilike: $input}}, {dishes: {name: {_ilike: $input}}}]}) {
+    ...chefInfo
+    dishes {
+      ...dishInfo
+    }
+  }
+}
+
+query  chefWithEmail ($email:String!) {
+  users (where:{email:{_eq:$email}}) {
+    id
+  }
+}
+query getChefWithId ($id:uuid!) {
+  users_by_pk(id: $id) {
+    ...chefInfo
+  }
+}

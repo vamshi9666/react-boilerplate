@@ -1,0 +1,109 @@
+mutation toggleDishLive($targetBoolean: Boolean, $dishId: uuid) {
+  update_dishes(
+    where: { id: { _eq: $dishId } }
+    _set: { is_live: $targetBoolean }
+  ) {
+    returning {
+      name
+      is_live
+    }
+  }
+}
+
+mutation updateFoodItem(
+  $dishId: uuid!
+  $name: String
+  $calories: String
+  $category: String
+  $ingredients: String
+  $description: String
+  $isVegetarian: Boolean
+  $cuisine: String
+  $type: String
+  $serving_unit:String 
+) {
+  update_dishes(
+    where: { id: { _eq: $dishId } }
+    _set: {
+      name: $name
+      calories: $calories
+      category: $category
+      description: $description
+      cuisine: $cuisine
+      type: $type
+      serving_unit:$serving_unit
+      isVegetarian: $isVegetarian
+      ingredients: $ingredients
+    }
+  ) {
+    returning {
+      name
+      cuisine
+      type
+      calories
+      category
+      image
+      isVegetarian
+      variants {
+        name
+        price
+        servings_count
+      }
+    }
+  }
+}
+
+
+mutation deleteDishVariants($dishId: uuid!) {
+  delete_dish_variants(where: {dish_Id: {_eq: $dishId}}) {
+    returning {
+      id
+    }
+  }
+}
+
+
+
+
+mutation addImages ($data:[dish_images_insert_input!]!) {
+  insert_dish_images(objects:$data ) {
+    returning {
+      id
+      dish{
+        id
+        name
+      }
+      
+    }
+  }
+}
+
+
+mutation deleteImages($dish_id: uuid!) {
+  delete_dish_images(where:{dish_id:{_eq:$dish_id}}) {
+    
+    returning {
+      id
+    }
+  }
+}
+
+mutation addVariants($data: [dish_variants_insert_input!]!) {
+  insert_dish_variants(objects:$data){
+    returning{
+      id
+    }
+  }
+}
+
+
+
+mutation deleteDish($dishId: uuid) {
+  delete_dishes(where: { id: { _eq: $dishId } }) {
+    returning {
+      id
+      name
+      description
+    }
+  }
+}

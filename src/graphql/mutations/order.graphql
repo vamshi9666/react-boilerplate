@@ -1,0 +1,13 @@
+mutation createOrder($input:orders_insert_input!)  {
+  insert_orders_one(object: $input) {
+    id
+  }
+}
+
+
+mutation updateOrderStatus ($orderId: uuid!, $newStatus: String!, $confirmedTime: timetz) {
+  update_orders_by_pk(pk_columns: {id: $orderId}, _set: {status: $newStatus, confirmed_time:$confirmedTime}) {
+    id
+    status
+  }
+}

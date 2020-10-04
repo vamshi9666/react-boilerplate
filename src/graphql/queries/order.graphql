@@ -1,0 +1,119 @@
+
+
+
+
+query orders($email: String!) {
+  orders(where: {customer: {email: {_eq: $email}}}) {
+    
+     id
+     status
+    is_delivery_enabled
+    delivery_fee
+    confirmed_time
+    chef {
+      last_name
+      first_name
+      profile_picture
+      id
+    }
+    dishes {
+      dish {
+        id
+        name
+        images {
+          path
+          id
+        }
+      }
+      variants {
+        count
+        variant_id
+        variant {
+          price
+          name
+        }
+      }
+    }
+  }
+}
+
+query chefOrders {
+  orders(order_by: {updated_at: desc}) {
+    id
+    status
+    is_delivery_enabled
+    delivery_fee
+    chef_notes
+    confirmed_time
+    customer {
+      id
+      phone_number
+      email
+      name
+    }
+    created_at
+    updated_at
+    chef {
+      last_name
+      first_name
+      profile_picture
+      id
+    }
+    dishes {
+      dish {
+        id
+        name
+        images {
+          path
+          id
+        }
+      }
+      variants {
+        count
+        variant_id
+        variant {
+          price
+        }
+      }
+    }
+  }
+}
+
+
+
+query oneOrder($orderId:uuid!) {
+   orders_by_pk(id: $orderId) {
+    id
+    status
+      is_delivery_enabled
+      delivery_fee
+      chef_notes
+      confirmed_time
+    customer {
+      email
+      name
+    }
+    dishes {
+         variants {
+             id
+        count
+        variant {
+          price
+          name
+        }
+      }
+      dish {
+        id
+         cuisine
+        type
+        category
+        images {
+          id
+          path
+        }
+        name
+        isVegetarian
+      }
+    }
+  }
+}
